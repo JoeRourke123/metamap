@@ -4,14 +4,25 @@ import io.radar.sdk.model.Coordinate;
 
 public class Post<T> {
 
-    T content;
-    String username;
-    Coordinate coordinate;
+    private T content;
+    private String username;
+    private Coordinate coordinate;
+    private String type;
 
-    public Post(T content, String username, Coordinate coordinate) {
+
+    public Post(T content, String username, Coordinate coordinate, String type) {
         this.username = username;
         this.content = content;
         this.coordinate = coordinate;
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public T getContent() {

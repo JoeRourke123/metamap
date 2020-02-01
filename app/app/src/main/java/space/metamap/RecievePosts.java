@@ -1,52 +1,51 @@
 package space.metamap;
 
-import com.android.volley.Request;
+import android.content.Context;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import android.location.Location;
-import android.content.Context;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.HashMap;
-import java.util.Map;
 
-public class RecievePosts {
+import io.radar.sdk.model.Coordinate;
+import space.metamap.util.Request;
 
-    public static void get(final Location location, Context context) {
+class RecievePosts {
+
+    public static void receivePost(final Context context, final double latitude, final double longitude, final PostList postList) {
         String url = "https://metamapp.herokuapp.com/post";
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                System.out.println(response.substring(0, 500));
-                try {
-                    JSONObject json = new JSONObject(response);
-                    System.out.println(json.getString("body"));
+        try {
+            Request jsonRequest = new Request(Request.Method.POST, url, new JSONObject(String.format("{\"operation\": \"get\",\"coordinates\": \"[%f, %f]\"}", latitude, longitude)), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        JSONArray data = response.getJSONArray("posts");
+                        for (int i=0; i<data.length(); i++) {
+                            JSONObject item = data.getJSONObject(i);
+                            Coordinate coordinate = new Coordinate(((double[])item.get("coordinate"))[0], ((double[])item.get("coordinate"))[1]);
+                            postList.addToList(new Post(item.get("data"), (String) item.get("username"), coordinate, (String) item.get("type")));
+                        }
+                    } catch(JSONException e) {
+                        System.err.println(e);
+                    }
                 }
-                catch(JSONException e) {
-                    System.out.println(e.toString());
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println(error.toString());
                 }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println(error.toString());
-            }
-        }) {
-            protected Map<String, String> getParams() {
-                Map<String, String> data = new HashMap<>();
-                data.put("latitude", String.valueOf(location.getLatitude()));
-                data.put("longitude", String.valueOf(location.getLongitude()));
-                return data;
-            }
-        };
-        requestQueue.add(stringRequest);
+            });
+            requestQueue.add(jsonRequest);
+        }
+        catch(Exception e) {
+            System.err.println(e);
+        }
     }
-
 }

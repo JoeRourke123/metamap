@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		Radar.initialize("prj_test_pk_827b0d73644e0cb263e476ca7271b845296b6283");
 		SharedPreferences preferences = getSharedPreferences("metamapp", MODE_PRIVATE);
 
 		if(preferences.getString("session", "").equals("")) {
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 		NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 //		NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 		NavigationUI.setupWithNavController(navView, navController);
-		Radar.initialize("prj_test_pk_827b0d73644e0cb263e476ca7271b845296b6283");
+
 	}
 
 }
