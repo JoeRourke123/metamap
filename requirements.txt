@@ -5,3 +5,4 @@ gunicorn
 pymongo
 Flask-Session
 flask_restful
+requests
