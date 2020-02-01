@@ -13,9 +13,16 @@ import com.like.LikeButton;
 
 import java.util.HashMap;
 
+import space.metamap.Post;
 import space.metamap.R;
 
 public class PostElement extends Fragment {
+
+    final Post post;
+
+    public PostElement(Post post) {
+        this.post = post;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

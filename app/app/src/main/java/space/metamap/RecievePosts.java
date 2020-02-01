@@ -29,8 +29,9 @@ class RecievePosts {
                         JSONArray data = response.getJSONArray("posts");
                         for (int i=0; i<data.length(); i++) {
                             JSONObject item = data.getJSONObject(i);
+                            System.out.println(item.toString());
                             Coordinate coordinate = new Coordinate(((double[])item.get("coordinate"))[0], ((double[])item.get("coordinate"))[1]);
-                            postList.addToList(new Post((String) item.get("type"), (String) item.get("data"), (String) item.get("type"), coordinate));
+                            postList.addToList(new Post((String) item.get("type"), (String) item.get("data"), (String) item.get("username"), coordinate));
                         }
                     } catch(JSONException e) {
                         System.err.println(e);
@@ -39,7 +40,7 @@ class RecievePosts {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    System.out.println(error.toString());
+                    System.err.println(error.toString());
                 }
             });
             requestQueue.add(jsonRequest);

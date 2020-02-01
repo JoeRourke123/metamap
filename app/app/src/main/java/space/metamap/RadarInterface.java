@@ -6,8 +6,6 @@ import io.radar.sdk.Radar;
 import io.radar.sdk.RadarTrackingOptions;
 
 public class RadarInterface {
-
-    Location currentLocation;
     MyRadarReciever myRadarReciever;
 
     public RadarInterface(PostList postList) {

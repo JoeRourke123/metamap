@@ -6,29 +6,39 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import space.metamap.Post;
+import space.metamap.PostList;
 import space.metamap.R;
+import space.metamap.postelements.PostElement;
 
 public class FeedFragment extends Fragment {
 
 	private FeedViewModel feedViewModel;
 	private ListView feedList;
-	private ArrayAdapter<Fragment> adapter;
+	private ArrayAdapter<PostElement> adapter;
+	private TextView coords;
 
 	public View onCreateView(@NonNull LayoutInflater inflater,
 							 ViewGroup container, Bundle savedInstanceState) {
-
-		ArrayList<Post> posts = savedInstanceState.getParcelableArrayList("posts");
-		adapter=new ArrayAdapter<Fragment>(container.getContext(), R.layout.post, (List) posts);
-		feedList.setAdapter(adapter);
 		View root = inflater.inflate(R.layout.fragment_feed, container, false);
+
+		PostList posts = new PostList();
+
+		coords = root.findViewById(R.id.coords);
+
+		feedList = root.findViewById(R.id.feedList);
+		adapter = new ArrayAdapter<>(container.getContext(), R.layout.post);
+
+		for(Post post : posts.getList()) {
+			adapter.add(new PostElement(post));
+		}
+
+		feedList.setAdapter(adapter);
 
 		return root;
 	}

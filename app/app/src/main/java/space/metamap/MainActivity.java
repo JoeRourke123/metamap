@@ -29,9 +29,6 @@ public class MainActivity extends AppCompatActivity {
 			startActivity(intent);
 		}
 
-		PostList postList = new PostList();
-		RadarInterface radar = new RadarInterface();
-
 		setContentView(R.layout.activity_main);
 		BottomNavigationView navView = findViewById(R.id.nav_view);
 		// Passing each menu ID as a set of Ids because each
@@ -43,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
 		navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
 			@Override
 			public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-				arguments.
 			}
 		});
 //		NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
