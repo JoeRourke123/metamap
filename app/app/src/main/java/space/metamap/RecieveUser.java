@@ -1,51 +1,56 @@
 package space.metamap;
 
-import com.android.volley.Request;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import android.content.Context;
+
+import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.*;
-import java.util.HashMap;
-import java.util.Map;
+
+import space.metamap.util.Request;
 
 public class RecieveUser {
 
-    public static void RecieveUser1(Context context, final String username, final String password) {
+    public static void receiveUser(final Context context, final String username, final String password) {
         String url = "https://metamapp.herokuapp.com/login";
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                System.out.println(response.substring(0, 500));
-                try {
-                    JSONObject json = new JSONObject(response);
-                    System.out.println(json.getString("body"));
-                }
-                catch(JSONException e) {
-                    System.out.println(e.toString());
-                }
+        try {
+            Request jsonRequest = new Request(Request.Method.POST, url, new JSONObject(String.format("{\"username\": \"%s\", \"password\":\"%s\"}", username, password)), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        JSONObject data = response.getJSONObject("data");
+                        JSONObject headers = response.getJSONObject("headers");
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println(error.toString());
-            }
-        }) {
-            protected Map<String, String> getParams() {
-                Map<String, String> data = new HashMap<>();
-                data.put("username", username);
-                data.put("password", password);
-                return data;
-            }
-        };
-        requestQueue.add(stringRequest);
+                        SharedPreferences.Editor prefs = context.getSharedPreferences("metamapp", context.MODE_PRIVATE).edit();
+                        prefs.putString("session", headers.get("Set-Cookie").toString().split("=")[1]);
+                        prefs.apply();
+
+                        context.startActivity(new Intent(context, space.metamap.MainActivity.class));
+
+                    } catch(JSONException e) {
+                        System.err.println(e);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println(error.toString());
+                }
+            });
+
+            requestQueue.add(jsonRequest);
+        }
+        catch(Exception e) {
+            System.err.println(e);
+        }
     }
 
 
