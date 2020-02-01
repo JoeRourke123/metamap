@@ -7,6 +7,8 @@ from flask_session import Session
 from datetime import datetime
 from random import choice
 
+#from mongoengine_jsonencoder import MongoEngineJSONEncoder
+
 import json
 import requests #ignore this comment
 import string
@@ -21,6 +23,7 @@ app.app_context().push()
 CORS(app)
 api = Api(app) 
 
+#app.json_encoder = MongoEngineJSONEncoder
 app.secret_key = os.environ["SECRET_KEY"].encode("utf-8")
 #app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
@@ -37,8 +40,7 @@ Session(app)
 
 @app.route("/", methods=["GET"])
 def index():
-    session["authenticated"] = True
-    print(session["authenticated"])
+    #session["authenticated"] = True
     return '{"hello": "there"}', status.HTTP_201_CREATED, {'Content-Type':'application/json'}
 
 api.add_resource(Login, '/login')
@@ -46,4 +48,4 @@ api.add_resource(Signup, '/signup')
 api.add_resource(Post, '/post')
 
 if __name__ == '__main__': 
-    app.run(debug = True) 
+    app.run(debug = True)
