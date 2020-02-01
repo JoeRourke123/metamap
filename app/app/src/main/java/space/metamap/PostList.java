@@ -8,8 +8,11 @@ public class PostList {
 
     private ArrayList<Post> list;
 
-    public PostList(Context context, double latitude, double longitude) {
+    public PostList() {
         this.list = new ArrayList<>();
+    }
+
+    public void getRetrieveList(Context context, double latitude, double longitude) {
         RecievePosts.receivePost(context, latitude, longitude, this);
     }
 

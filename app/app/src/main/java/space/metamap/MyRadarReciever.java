@@ -12,6 +12,7 @@ import io.radar.sdk.model.RadarUser;
 public class MyRadarReciever extends RadarReceiver {
 
     private PostList postList;
+    private Location currentLocation;
 
     public MyRadarReciever(PostList postList) {
         this.postList = postList;
@@ -26,11 +27,16 @@ public class MyRadarReciever extends RadarReceiver {
     public void onLocationUpdated(Context context, Location location, RadarUser user) {
         // do something with context, location, user
         RecievePosts.receivePost(context, location.getLatitude(), location.getLongitude(), this.postList);
+        currentLocation = location;
     }
 
     @Override
     public void onError(Context context, RadarStatus status) {
         // do something with context, status
+    }
+
+    public Location getCurrentLocation() {
+        return currentLocation;
     }
 
 }

@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 			startActivity(intent);
 		}
 
+		PostList postList = new PostList();
 		RadarInterface radar = new RadarInterface();
 
 		setContentView(R.layout.activity_main);
