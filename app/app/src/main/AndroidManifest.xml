@@ -17,7 +17,6 @@
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 	<uses-permission android:name="android.permission.INTERNET"/>
 
-
 	<application
 		android:allowBackup="true"
 		android:icon="@mipmap/ic_launcher"
@@ -27,7 +26,7 @@
 		android:theme="@style/AppTheme">
 		<meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyANNbvVO6lGGI9MGeMycGnDEO6mwq1jCng"/>
 		<activity
-			android:name=".MainActivity"
+			android:name="space.metamap.MainActivity"
 			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -42,6 +41,7 @@
 				<action android:name="io.radar.sdk.RECEIVED" />
 			</intent-filter>
 		</receiver>
+
 	</application>
 
 </manifest>

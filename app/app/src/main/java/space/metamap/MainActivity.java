@@ -1,4 +1,4 @@
-package space.metadata;
+package space.metamap;
 
 import android.os.Bundle;
 

@@ -1,16 +1,16 @@
-package space.metadata.ui.map;
+package space.metamap.ui.feed;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class MapViewModel extends ViewModel {
+public class FeedViewModel extends ViewModel {
 
 	private MutableLiveData<String> mText;
 
-	public MapViewModel() {
+	public FeedViewModel() {
 		mText = new MutableLiveData<>();
-		mText.setValue("This is dashboard fragment");
+		mText.setValue("This is home fragment");
 	}
 
 	public LiveData<String> getText() {
