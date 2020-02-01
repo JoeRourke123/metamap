@@ -1,5 +1,7 @@
 package space.metamap;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +16,15 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+
+		if(preferences.getString("session", "").equals("")) {
+			Intent intent = new Intent(this, space.metamap.ui.login.LoginActivity.class);
+			startActivity(intent);
+		}
+
+
 		setContentView(R.layout.activity_main);
 		BottomNavigationView navView = findViewById(R.id.nav_view);
 		// Passing each menu ID as a set of Ids because each
