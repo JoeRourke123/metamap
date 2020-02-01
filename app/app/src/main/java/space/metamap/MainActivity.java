@@ -1,5 +1,6 @@
 package space.metamap;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.os.Bundle;
@@ -10,10 +11,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.tabs.TabLayout;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
 	private GoogleMap mMap;
+	private TabLayout tabLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
 			.findFragmentById(R.id.map);
 		mapFragment.getMapAsync(this);
+
+
+		// Tab Initialisation
+		tabLayout = (TabLayout) findViewById(R.id.tabs);
+		tabLayout.addOnTabSelectedListener(
+			new TabLayout.OnTabSelectedListener() {
+				@Override
+				public void onTabSelected(TabLayout.Tab tab) {
+					Fragment fragment = null;
+
+					switch(tab.getPosition()) {
+						case 0:
+							fragment = new FeedFragment();
+							break;
+						case 1:
+							fragment = new MapFragment();
+							break;
+						case 2:
+							fragment = new MessageFragment();
+							break
+					}
+				}
+
+				@Override
+				public void onTabUnselected(TabLayout.Tab tab) { }
+
+				@Override
+				public void onTabReselected(TabLayout.Tab tab) { }
+			}
+		);
 	}
 
 
