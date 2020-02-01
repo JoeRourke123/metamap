@@ -1,20 +1,42 @@
 package space.metamap;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import io.radar.sdk.model.Coordinate;
 
-public class Post<T> {
+public class Post implements Parcelable {
 
-    T content;
+    String type
+    String content;
     String username;
     Coordinate coordinate;
 
-    public Post(T content, String username, Coordinate coordinate) {
+    public Post(String type, String content, String username, Coordinate coordinate) {
+        this.type = type;
         this.username = username;
         this.content = content;
         this.coordinate = coordinate;
     }
 
-    public T getContent() {
+    public Post(Parcel source) {
+        content = source.readString();
+        username = source.readString();
+        coordinate = new Coordinate(source.readDouble(), source.readDouble());
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(content);
+        dest.writeString(username);
+        dest.writeDouble(coordinate.getLatitude());
+        dest.writeDouble(coordinate.getLongitude());
+    }
+
+    public String getContent() {
         return content;
     }
 
