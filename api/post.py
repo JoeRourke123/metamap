@@ -12,5 +12,7 @@ class Post(Resource):
 
     @login_required
     def post(self):
-        pass
+        data = request.json
+        
+
         return {"thank mr skeltal": "yes"}, 200
