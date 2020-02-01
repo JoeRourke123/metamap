@@ -1,4 +1,4 @@
-package space.metadata;
+package space.metamap;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package space.metadata.ui.feed;
+package space.metamap.ui.feed;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

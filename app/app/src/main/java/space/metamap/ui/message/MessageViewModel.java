@@ -1,16 +1,16 @@
-package space.metadata.ui.feed;
+package space.metamap.ui.message;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class FeedViewModel extends ViewModel {
+public class MessageViewModel extends ViewModel {
 
 	private MutableLiveData<String> mText;
 
-	public FeedViewModel() {
+	public MessageViewModel() {
 		mText = new MutableLiveData<>();
-		mText.setValue("This is home fragment");
+		mText.setValue("This is notifications fragment");
 	}
 
 	public LiveData<String> getText() {

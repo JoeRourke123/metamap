@@ -1,16 +1,16 @@
-package space.metadata.ui.message;
+package space.metamap.ui.map;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class MessageViewModel extends ViewModel {
+public class MapViewModel extends ViewModel {
 
 	private MutableLiveData<String> mText;
 
-	public MessageViewModel() {
+	public MapViewModel() {
 		mText = new MutableLiveData<>();
-		mText.setValue("This is notifications fragment");
+		mText.setValue("This is dashboard fragment");
 	}
 
 	public LiveData<String> getText() {

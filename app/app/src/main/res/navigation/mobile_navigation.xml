@@ -7,19 +7,19 @@
 
 	<fragment
 		android:id="@+id/navigation_home"
-		android:name="space.metadata.ui.feed.FeedFragment"
+		android:name="space.metamap.ui.feed.FeedFragment"
 		android:label="@string/title_feed"
 		tools:layout="@layout/fragment_feed" />
 
 	<fragment
 		android:id="@+id/navigation_dashboard"
-		android:name="space.metadata.ui.map.MapFragment"
+		android:name="space.metamap.ui.map.MapFragment"
 		android:label="@string/title_map"
 		tools:layout="@layout/fragment_map" />
 
 	<fragment
 		android:id="@+id/navigation_notifications"
-		android:name="space.metadata.ui.message.MessageFragment"
+		android:name="space.metamap.ui.message.MessageFragment"
 		android:label="@string/title_message"
 		tools:layout="@layout/fragment_message" />
 </navigation>
