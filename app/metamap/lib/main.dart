@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'feed.dart';
 
 void main() => runApp(MetaMap());
 
@@ -42,6 +43,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  void hello(String str) {
+    print("hello" + str);
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -86,6 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: 'Increment',
+        onPressed: () { hello("joe"); },
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
