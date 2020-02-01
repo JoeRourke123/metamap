@@ -5,7 +5,7 @@ from flask_restful import Resource, Api
 from flask_session import Session
 
 from datetime import datetime
-from random import choic
+from random import choice
 
 import json
 import requests
@@ -14,7 +14,7 @@ import os
 
 from api.account import Login, Signup
 from api.database import Database
-from api.post 
+from api.post import Post
 
 app = Flask(__name__)
 app.app_context().push()
@@ -43,6 +43,7 @@ def index():
 
 api.add_resource(Login, '/login')
 api.add_resource(Signup, '/signup')
+api.add_resource(Post, '/post')
 
 if __name__ == '__main__': 
     app.run(debug = True) 

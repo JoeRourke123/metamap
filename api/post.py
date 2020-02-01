@@ -9,5 +9,8 @@ database = Database()
 class Post(Resource):
     def __init__(self):
         super().__init__()
-        
+
+    @login_required
     def post(self):
+        pass
+        return {"thank mr skeltal": "yes"}, 200
