@@ -10,7 +10,7 @@ public class PostList {
 
     public PostList(Context context, double latitude, double longitude) {
         this.list = new ArrayList<>();
-        RecievePost.receivePost(context, latitude, longitude, this);
+        RecievePosts.receivePost(context, latitude, longitude, this);
     }
 
     public ArrayList<Post> getList() {

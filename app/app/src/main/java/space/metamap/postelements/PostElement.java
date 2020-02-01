@@ -11,9 +11,11 @@ import androidx.fragment.app.Fragment;
 
 import com.like.LikeButton;
 
+import java.util.HashMap;
+
 import space.metamap.R;
 
-public class TextPost extends Fragment {
+public class PostElement extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -32,6 +34,14 @@ public class TextPost extends Fragment {
         likes.setText(savedInstanceState.getString("likes"));
         distance.setText("Posted from " + savedInstanceState.getString("distance" + "km away"));
         liked.setLiked(savedInstanceState.getBoolean("liked"));
+
+        HashMap<String, Integer> ids = new HashMap<>();
+        ids.put("text", R.id.text);
+        ids.put("image", R.id.image);
+        ids.put("spotify", R.id.spotify);
+        ids.put("youtube", R.id.youtube);
+
+        (root.findViewById(ids.get(savedInstanceState.getString("type")))).setVisibility(View.VISIBLE);
 
         return root;
     }

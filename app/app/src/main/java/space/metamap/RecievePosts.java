@@ -14,7 +14,7 @@ import org.json.JSONObject;
 import io.radar.sdk.model.Coordinate;
 import space.metamap.util.Request;
 
-class RecievePost {
+class RecievePosts {
 
     public static void receivePost(final Context context, final double latitude, final double longitude, final PostList postList) {
         String url = "https://metamapp.herokuapp.com/post";
@@ -30,7 +30,7 @@ class RecievePost {
                         for (int i=0; i<data.length(); i++) {
                             JSONObject item = data.getJSONObject(i);
                             Coordinate coordinate = new Coordinate(((double[])item.get("coordinate"))[0], ((double[])item.get("coordinate"))[1]);
-                            postList.addToList(new Post(item.get("data"), (String) item.get("username"), coordinate, (String) item.get("type")));
+                            postList.addToList(new Post((String) item.get("type"), (String) item.get("data"), (String) item.get("type"), coordinate));
                         }
                     } catch(JSONException e) {
                         System.err.println(e);

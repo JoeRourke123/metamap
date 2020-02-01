@@ -25,7 +25,7 @@ public class MyRadarReciever extends RadarReceiver {
     @Override
     public void onLocationUpdated(Context context, Location location, RadarUser user) {
         // do something with context, location, user
-        RecievePost.receivePost(context, location.getLatitude(), location.getLongitude(), this.postList);
+        RecievePosts.receivePost(context, location.getLatitude(), location.getLongitude(), this.postList);
     }
 
     @Override
