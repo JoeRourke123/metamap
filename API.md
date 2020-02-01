@@ -12,11 +12,15 @@ Need to make posts have post_ID.
 
 ## Create post
 
-`curl -v -X POST --data '{"operation": "add", "type": "text", "data": "tums festival", "coordinates": [LAT, LONG]}' --header "Content-Type:application/json" https://metamapp.herokuapp.com/post`
+`curl -v -X POST -b 'flask_sess=cdb382ac-48ac-43c9-8ba2-b1007308bd14' --data '{"operation": "add", "type": "text", "data": "tums festival", "coordinates": [51.424316, -0.560857]}' --header "Content-Type:application/json" https://metamapp.herokuapp.com/post`
 
 ## Get posts
 
 `curl -v -X POST --data '{"operation": "get", "coordinates": [LAT, LONG]}' --header "Content-Type:application/json" https://metamapp.herokuapp.com/post`
+
+## Like & Unlike posts
+
+`curl -v -X POST -b 'flask_sess=cdb382ac-48ac-43c9-8ba2-b1007308bd14' --data '{"post_id": "id"}' --header "Content-Type:application/json" https://metamapp.herokuapp.com/post`
 
 ## Upload image
 

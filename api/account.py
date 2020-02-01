@@ -26,7 +26,7 @@ class Login(Resource):
         super().__init__()
 
     def post(self): 
-        data = request.form
+        data = request.json
 
         user = users.find_one({"username": data.get("username")})
 
