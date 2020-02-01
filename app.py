@@ -5,8 +5,7 @@ from flask_restful import Resource, Api
 from flask_session import Session
 
 from datetime import datetime
-from random import choice
-from functools import wraps
+from random import choic
 
 import json
 import requests
@@ -15,6 +14,7 @@ import os
 
 from api.account import Login, Signup
 from api.database import Database
+from api.post 
 
 app = Flask(__name__)
 app.app_context().push()
@@ -34,16 +34,6 @@ SESSION_MONGODB_DB = "heroku_9pm8qrb1"
 
 app.config.from_object(__name__)
 Session(app)
-
-def login_required(f):
-    @wraps(f)
-    def wrap(*args, **kwargs):
-        if session.get("authenticated"):
-            return f(*args, **kwargs)
-        else:
-            return {error:401}
-
-    return wrap
 
 @app.route("/", methods=["GET"])
 def index():

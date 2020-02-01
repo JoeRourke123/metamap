@@ -1,15 +1,25 @@
 from flask_restful import Resource, Api
 from flask import Flask, session, request, url_for, render_template, redirect, abort, escape, flash
+from flask import current_app as app
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from flask import current_app as app
-
+from functools import wraps
 from datetime import datetime
 
 from api.database import Database
 
 database = Database()
 users = database.get_users()
+
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if session.get("authenticated"):
+            return f(*args, **kwargs)
+        else:
+            return {"error": "You need to authenticate to use this endpoint"}, 401
+
+    return wrap
 
 class Login(Resource):
     def __init__(self):
@@ -34,7 +44,6 @@ class Login(Resource):
 class Signup(Resource):
     def __init__(self):
         super().__init__()
-
 
     def post(self):
         data = request.json
