@@ -16,6 +16,9 @@ import requests
 import string
 import os
 
+from api.account import Login
+from api.error import Error
+
 app = Flask(__name__)
 CORS(app)
 api = Api(app) 
@@ -46,9 +49,9 @@ def login_required(f):
 
     return wrap
 
-@app.route("/", methods=["GET"])
-def index():
-    return '{"hello": "there"}', status.HTTP_201_CREATED, {'Content-Type':'application/json'}
+# @app.route("/", methods=["GET"])
+# def index():
+#     return '{"hello": "there"}', status.HTTP_201_CREATED, {'Content-Type':'application/json'}
 
 class Hello(Resource): 
   
@@ -65,7 +68,7 @@ class Hello(Resource):
         data = request.get_json()     # status code 
         return jsonify({'data': data}), 201
 
-api.add_resource(Hello, '/') 
+api.add_resource(Login, '/leg') 
 
 if __name__ == '__main__': 
     app.run(debug = True) 
