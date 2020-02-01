@@ -1,12 +1,14 @@
 package space.metamap;
 
+import android.location.Location;
+
 import io.radar.sdk.Radar;
-import io.radar.sdk.RadarReceiver;
 import io.radar.sdk.RadarTrackingOptions;
 
 public class RadarInterface {
 
-    RadarReceiver myRadarReciever;
+    Location currentLocation;
+    MyRadarReciever myRadarReciever;
 
     public RadarInterface(PostList postList) {
         this.myRadarReciever = new MyRadarReciever(postList);
@@ -26,4 +28,7 @@ public class RadarInterface {
         Radar.stopTracking();
     }
 
+    public Location getLocation() {
+        return this.myRadarReciever.getCurrentLocation();
+    }
 }
