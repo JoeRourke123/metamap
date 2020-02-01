@@ -45,7 +45,7 @@ public class SendPost {
                             for (int i = 0; i < data.length(); i++) {
                                 JSONObject item = data.getJSONObject(i);
                                 Coordinate coordinate = new Coordinate(((double[]) item.get("coordinate"))[0], ((double[]) item.get("coordinate"))[1]);
-                                postList.addToList(new Post(item.get("data"), (String) item.get("username"), coordinate, (String) item.get("type")));
+                                postList.addToList(new Post((String) item.get("data"), (String) item.get("username"), (String) item.get("type"), coordinate));
                             }
                         } catch (JSONException e) {
                             System.err.println(e);

@@ -1,16 +1,18 @@
 package space.metamap;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import io.radar.sdk.model.Coordinate;
 
-public class Post<T> {
+public class Post implements Parcelable {
 
-    private T content;
-    private String username;
-    private Coordinate coordinate;
-    private String type;
+    String content;
+    String username;
+    Coordinate coordinate;
+    String type;
 
-
-    public Post(T content, String username, Coordinate coordinate, String type) {
+    public Post(String type, String content, String username, Coordinate coordinate) {
         this.username = username;
         this.content = content;
         this.coordinate = coordinate;
@@ -25,7 +27,26 @@ public class Post<T> {
         this.type = type;
     }
 
-    public T getContent() {
+    public Post(Parcel source) {
+        content = source.readString();
+        username = source.readString();
+        coordinate = new Coordinate(source.readDouble(), source.readDouble());
+        type = source.readString();
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(content);
+        dest.writeString(username);
+        dest.writeDouble(coordinate.getLatitude());
+        dest.writeDouble(coordinate.getLongitude());
+        dest.writeString(type);
+    }
+
+    public String getContent() {
         return content;
     }
 
@@ -56,4 +77,16 @@ public class Post<T> {
     private double rad2deg(double rad) {
         return (rad * 180.0 / Math.PI);
     }
+
+    public static final Creator<Post> CREATOR = new Creator<Post>() {
+        @Override
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+
+        @Override
+        public Post createFromParcel(Parcel source) {
+            return new Post(source);
+        }
+    };
 }
