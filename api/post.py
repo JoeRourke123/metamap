@@ -3,6 +3,7 @@ from flask import Flask, session, request, url_for, render_template, redirect, a
 from flask import current_app as app
 
 from datetime import datetime
+from bson import json_util
 
 from api.database import Database
 from api.account import login_required
@@ -24,7 +25,10 @@ class Post(Resource):
                         "type": "text",
                         "username": session["user"].get("username"),
                         "data": data.get("data"),
-                        "coordinates": data.get("coordinates"),
+                        "location": {
+                                    "type": "Point",
+                                    "coordinates": data.get("coordinates")
+                                    },
                         "timestamp": datetime.now()
                         }
             else:
@@ -34,11 +38,31 @@ class Post(Resource):
             return {"message": "Post created successfully"}, 200
         
         elif data.get("operation") == "get":
-            postsWithinRadius = []
-
             coordinates = data.get("coordinates")
 
-            minLang, minLong, maxLang, maxLong = 0, 0, 0, 0
+            nearPosts = posts.find({
+                                    "location": {
+                                        "$near": {
+                                            "$geometry": {
+                                                "type": "Point" ,
+                                                "coordinates": [coordinates[0], coordinates[1]]
+                                            },
+                                            "$maxDistance": 100,
+                                            "$minDistance": 0
+                                            }
+                                        }
+                                    }, 
+                                    {
+                                    '_id': False
+                                    })
+
+            nearPostList = []
+
+            for post in nearPosts:
+                post["timestamp"] = post["timestamp"].isoformat()
+                nearPostList.append(post)
+                
+            return {"posts": nearPostList}, 200
 
         else:
             return {"error": "Invalid operation"}, 405
