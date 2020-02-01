@@ -15,7 +15,6 @@ def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
         if session.get("authenticated"):
-            print("auth success")
             return f(*args, **kwargs)
         else:
             return {"error": "You need to authenticate to use this endpoint"}, 401

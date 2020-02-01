@@ -22,6 +22,7 @@ class Post(Resource):
             if data.get("type") == "text":
                 post =  {
                         "type": "text",
+                        "username": session["user"].get("username"),
                         "data": data.get("data"),
                         "coordinates": data.get("coordinates"),
                         "timestamp": datetime.now()
@@ -32,6 +33,13 @@ class Post(Resource):
             posts.insert_one(post)
             return {"message": "Post created successfully"}, 200
         
+        elif data.get("operation") == "get":
+            postsWithinRadius = []
+
+            coordinates = data.get("coordinates")
+
+            minLang, minLong, maxLang, maxLong = 0, 0, 0, 0
+
         else:
             return {"error": "Invalid operation"}, 405
 
