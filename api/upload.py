@@ -34,9 +34,10 @@ class Upload(Resource):
     def post(self):
         data = request.files.get("data")
         filename = "".join([choice(string.ascii_letters + string.digits) for char in range(8)])
+        _, ext = os.path.splitext(data.filename)
  
-        data.save(filename)
+        data.save("temp/" + filename + ext)
 
-        bucket.upload_file(filename)
+        bucket.upload_local_file("temp/" + filename + ext, filename + ext)
 
-        return {"url": get_download_url(filename)}, 201
+        return {"url": bucket.get_download_url(filename + ext)}, 201
