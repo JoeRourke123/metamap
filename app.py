@@ -37,8 +37,7 @@ Session(app)
 
 @app.route("/", methods=["GET"])
 def index():
-    session["authenticated"] = True
-    print(session["authenticated"])
+    #session["authenticated"] = True
     return '{"hello": "there"}', status.HTTP_201_CREATED, {'Content-Type':'application/json'}
 
 api.add_resource(Login, '/login')
