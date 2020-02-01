@@ -14,7 +14,7 @@ import org.json.JSONObject;
 import io.radar.sdk.model.Coordinate;
 import space.metamap.util.Request;
 
-class RecievePost {
+class RecievePosts {
 
     public static void receivePost(final Context context, final double latitude, final double longitude, final PostList postList) {
         String url = "https://metamapp.herokuapp.com/post";
