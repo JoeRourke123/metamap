@@ -14,15 +14,34 @@ import org.json.JSONObject;
 import io.radar.sdk.model.Coordinate;
 import space.metamap.util.Request;
 
-class RecievePost {
+public class SendPost {
 
-    public static void receivePost(final Context context, final double latitude, final double longitude, final PostList postList) {
+    public static <T> void sendPost(Context context, T content, String username, Coordinate coordinate, String type, final PostList postList) {
+        Post<T> post = new Post(content, username, coordinate, type);
+        JSONObject object = new JSONObject();
+        String msg = "";
+        if(type.equals("text")) {
+            msg = String.format("{\"operation\": \"add\", \"type\": \"%s\", \"data\": \"%s\", \"coordinates\": [%f, %f]}", type, content, coordinate.getLatitude(), coordinate.getLongitude());
+        }
+        if(type.equals("spotify")) {
+
+        }
+        if(type.equals("youtube")) {
+
+        }
+        if(type.equals("sound")) {
+
+        }
+        if(type.equals("image")) {
+
+        }
+
         String url = "https://metamapp.herokuapp.com/post";
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
         try {
-            Request jsonRequest = new Request(Request.Method.POST, url, new JSONObject(String.format("{\"operation\": \"get\",\"coordinates\": \"[%f, %f]\"}", latitude, longitude)), new Response.Listener<JSONObject>() {
+            Request jsonRequest = new Request(Request.Method.POST, url, new JSONObject(msg), new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
@@ -47,5 +66,6 @@ class RecievePost {
         catch(Exception e) {
             System.err.println(e);
         }
+
     }
 }

@@ -3,13 +3,14 @@ package space.metamap;
 import io.radar.sdk.Radar;
 import io.radar.sdk.RadarReceiver;
 import io.radar.sdk.RadarTrackingOptions;
-import io.radar.sdk.model.RadarUser;
 
 public class RadarInterface {
 
-    RadarReceiver myRadarReciever = new MyRadarReciever();
+    RadarReceiver myRadarReciever;
 
-    public RadarInterface(RadarUser radarUser) { }
+    public RadarInterface(PostList postList) {
+        this.myRadarReciever = new MyRadarReciever(postList);
+    }
 
     public void runTrack() {
         RadarTrackingOptions trackingOptions = new RadarTrackingOptions.Builder()

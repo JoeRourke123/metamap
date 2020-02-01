@@ -7,22 +7,31 @@ import io.radar.sdk.model.Coordinate;
 
 public class Post implements Parcelable {
 
-    String type
     String content;
     String username;
     Coordinate coordinate;
+    String type;
 
     public Post(String type, String content, String username, Coordinate coordinate) {
-        this.type = type;
         this.username = username;
         this.content = content;
         this.coordinate = coordinate;
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Post(Parcel source) {
         content = source.readString();
         username = source.readString();
         coordinate = new Coordinate(source.readDouble(), source.readDouble());
+        type = source.readString();
     }
 
     public int describeContents() {
@@ -34,6 +43,7 @@ public class Post implements Parcelable {
         dest.writeString(username);
         dest.writeDouble(coordinate.getLatitude());
         dest.writeDouble(coordinate.getLongitude());
+        dest.writeString(type);
     }
 
     public String getContent() {
@@ -67,4 +77,16 @@ public class Post implements Parcelable {
     private double rad2deg(double rad) {
         return (rad * 180.0 / Math.PI);
     }
+
+    public static final Creator<Post> CREATOR = new Creator<Post>() {
+        @Override
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+
+        @Override
+        public Post createFromParcel(Parcel source) {
+            return new Post(source);
+        }
+    };
 }
