@@ -7,10 +7,8 @@ from flask_session import Session
 from datetime import datetime
 from random import choice
 
-#from mongoengine_jsonencoder import MongoEngineJSONEncoder
-
 import json
-import requests #ignore this comment
+import requests
 import string
 import os
 

@@ -20,17 +20,21 @@ class Post(Resource):
         data = request.json
 
         if data.get("operation") == "add":
-            if data.get("type") == "text":
-                post =  {
-                        "type": "text",
-                        "username": session["user"].get("username"),
-                        "data": data.get("data"),
-                        "location": {
+            post_type = data.get("type")
+            post =  {
+                    "username": session["user"].get("username"),
+                    "location": {
                                     "type": "Point",
                                     "coordinates": data.get("coordinates")
-                                    },
-                        "timestamp": datetime.now()
-                        }
+                                },
+                    "timestamp": datetime.now().isoformat()
+                    }
+            if post_type == "text":
+                post["type"] = "text"
+                post["data"] = data.get("data")
+            elif post_type == "link":
+                post["type"] = "link"
+                post["link"] = data.get("link")
             else:
                 return {"error": "Invalid type"}, 418
             
