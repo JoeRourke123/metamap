@@ -1,18 +1,33 @@
 from flask_restful import Resource, Api
+from flask import Flask, session, request, url_for, render_template, redirect, abort, escape, flash
+
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class Login(Resource):
-    # corresponds to the GET request. 
-    # this function is called whenever there 
-    # is a GET request for this resource 
-    def get(self): 
-  
-        return {'message': 'hello world'}
-  
-    # Corresponds to POST request 
-    def post(self): 
-          
-        data = request.get_json()     # status code 
-        return {'data': data}, 201
+    def __init__(self):
+        super().__init__()
 
-# class Signup:
-#     pass
+    def post(self): 
+        data = request.json
+
+        return {'data': data}
+
+class Signup(Resource):
+    def __init__(self):
+        super().__init__()
+
+
+    def post(self):
+        data = request.json
+
+        if users.find_one({"username": data["username"]}):
+            return {"error": "Username already taken"}
+
+        users.insert_one({
+                            "username": data["username"],
+                            "password": generate_password_hash(escape(data["password"])),
+                            "creation": datetime.now(),
+                            "ip": request.remote_addr
+                          })
+
+        return {"message": "User created successfully", "username": data["username"]}

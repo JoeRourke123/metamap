@@ -4,9 +4,6 @@ from flask_api import status
 from flask_session import Session
 from flask_restful import Resource, Api 
 
-from werkzeug.security import generate_password_hash, check_password_hash
-
-from pymongo import MongoClient
 from datetime import datetime
 from random import choice
 from functools import wraps
@@ -16,8 +13,7 @@ import requests
 import string
 import os
 
-from api.account import Login
-from api.error import Error
+from api.account import Login, Signup
 
 app = Flask(__name__)
 CORS(app)
@@ -53,22 +49,23 @@ def login_required(f):
 # def index():
 #     return '{"hello": "there"}', status.HTTP_201_CREATED, {'Content-Type':'application/json'}
 
-class Hello(Resource): 
+# class Hello(Resource): 
   
-    # corresponds to the GET request. 
-    # this function is called whenever there 
-    # is a GET request for this resource 
-    def get(self): 
+#     # corresponds to the GET request. 
+#     # this function is called whenever there 
+#     # is a GET request for this resource 
+#     def get(self): 
   
-        return jsonify({'message': 'hello world'}) 
+#         return jsonify({'message': 'hello world'}) 
   
-    # Corresponds to POST request 
-    def post(self): 
+#     # Corresponds to POST request 
+#     def post(self): 
           
-        data = request.get_json()     # status code 
-        return jsonify({'data': data}), 201
+#         data = request.get_json()     # status code 
+#         return jsonify({'data': data}), 201
 
-api.add_resource(Login, '/leg') 
+api.add_resource(Login, '/login')
+api.add_resource(Signup, '/signup')
 
 if __name__ == '__main__': 
     app.run(debug = True) 
