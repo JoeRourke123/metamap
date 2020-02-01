@@ -60,13 +60,13 @@ class Post(Resource):
                                     '_id': False
                                     })
 
-            nearPostList = []
+            # nearPostList = []
 
-            for post in nearPosts:
-                post["timestamp"] = post["timestamp"].isoformat()
-                nearPostList.append(post)
+            # for post in nearPosts:
+            #     post["timestamp"] = post["timestamp"]
+            #     nearPostList.append(post)
                 
-            return {"posts": nearPostList}, 200
+            return {"posts": [post for post in nearPosts]}, 200
 
         else:
             return {"error": "Invalid operation"}, 405

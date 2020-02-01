@@ -11,8 +11,10 @@ from api.account import login_required
 database = Database()
 posts = database.get_posts()
 
-class Post(Resource):
+class Upload(Resource):
     def __init__(self):
         super().__init__()
 
     @login_required
+    def post(self):
+        
