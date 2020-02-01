@@ -14,7 +14,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
-import space.metadata.R;
+import space.metamap.R;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 	public MapFragment() {

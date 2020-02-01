@@ -6,18 +6,20 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import android.location.Location;
 import android.content.Context;
+import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RecieveUser {
+public class RecievePosts {
+    public RecievePosts() {
 
-    public RecieveUser() {}
+    }
 
-    public void RecieveUser1(Context context, final String username, final String password) {
-        String url = "https://metamapp.herokuapp.com/login";
+    public void get(final Location location, Context context) {
+        String url = "https://metamapp.herokuapp.com/post";
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
@@ -42,13 +44,12 @@ public class RecieveUser {
         }) {
             protected Map<String, String> getParams() {
                 Map<String, String> data = new HashMap<>();
-                data.put("username", username);
-                data.put("password", password);
+                data.put("latitude", String.valueOf(location.getLatitude()));
+                data.put("longitude", String.valueOf(location.getLongitude()));
                 return data;
             }
         };
         requestQueue.add(stringRequest);
     }
-
 
 }
