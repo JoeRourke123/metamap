@@ -3,6 +3,10 @@ package space.metamap;
 import android.content.Context;
 import android.location.Location;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import io.radar.sdk.Radar;
 import io.radar.sdk.Radar.RadarStatus;
 import io.radar.sdk.RadarReceiver;
 import io.radar.sdk.model.RadarEvent;
@@ -16,6 +20,12 @@ public class MyRadarReciever extends RadarReceiver {
 
     public MyRadarReciever(PostList postList) {
         this.postList = postList;
+        Radar.updateLocation(currentLocation, new Radar.RadarCallback() {
+            @Override
+            public void onComplete(@NotNull RadarStatus radarStatus, @Nullable Location location, @Nullable RadarEvent[] radarEvents, @Nullable RadarUser radarUser) {
+
+            }
+        });
     }
 
     @Override
