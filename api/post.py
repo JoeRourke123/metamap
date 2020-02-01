@@ -3,7 +3,9 @@ from flask import Flask, session, request, url_for, render_template, redirect, a
 from flask import current_app as app
 
 from datetime import datetime
-from bson import json_util
+from random import choice
+
+import string
 
 from api.database import Database
 from api.account import login_required
@@ -22,6 +24,7 @@ class Post(Resource):
         if data.get("operation") == "add":
             post_type = data.get("type")
             post =  {
+                    "post_id": "".join([choice(string.ascii_letters + string.digits) for char in range(8)]),
                     "username": session["user"].get("username"),
                     "location": {
                                     "type": "Point",

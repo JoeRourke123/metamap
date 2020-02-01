@@ -16,6 +16,7 @@ from api.account import Login, Signup
 from api.database import Database
 from api.post import Post
 from api.upload import Upload
+from api.like import Like, Unlike
 
 app = Flask(__name__)
 app.app_context().push()
@@ -44,7 +45,10 @@ def index():
 
 api.add_resource(Login, '/login')
 api.add_resource(Signup, '/signup')
+
 api.add_resource(Post, '/post')
+
+api.add_resource(Upload, '/upload')
 
 if __name__ == '__main__': 
     app.run(debug = True)
