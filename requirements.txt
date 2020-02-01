@@ -1,0 +1,6 @@
+Flask_Api
+Flask
+Flask_Cors
+gunicorn
+pymongo
+Flask-Session
