@@ -35,33 +35,6 @@ public class SendPost {
         String url = "https://metamapp.herokuapp.com/post";
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        if(!type.equals("image") && !type.equals("sound")) {
-            try {
-                Request jsonRequest = new Request(Request.Method.POST, url, new JSONObject(msg), new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray data = response.getJSONArray("posts");
-                            for (int i = 0; i < data.length(); i++) {
-                                JSONObject item = data.getJSONObject(i);
-                                Coordinate coordinate = new Coordinate(((double[]) item.get("coordinate"))[0], ((double[]) item.get("coordinate"))[1]);
-                                postList.addToList(new Post(item.get("data"), (String) item.get("username"), coordinate, (String) item.get("type")));
-                            }
-                        } catch (JSONException e) {
-                            System.err.println(e);
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.out.println(error.toString());
-                    }
-                });
-                requestQueue.add(jsonRequest);
-            } catch (Exception e) {
-                System.err.println(e);
-            }
-        }
         if(type.equals("image")) {
             try {
                 VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, url,
@@ -91,6 +64,33 @@ public class SendPost {
                     }
                 };
                 requestQueue.add(volleyMultipartRequest);
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+        }
+        else {
+            try {
+                Request jsonRequest = new Request(Request.Method.POST, url, new JSONObject(msg), new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray data = response.getJSONArray("posts");
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONObject item = data.getJSONObject(i);
+                                Coordinate coordinate = new Coordinate(((double[]) item.get("coordinate"))[0], ((double[]) item.get("coordinate"))[1]);
+                                postList.addToList(new Post(item.get("data"), (String) item.get("username"), coordinate, (String) item.get("type")));
+                            }
+                        } catch (JSONException e) {
+                            System.err.println(e);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println(error.toString());
+                    }
+                });
+                requestQueue.add(jsonRequest);
             } catch (Exception e) {
                 System.err.println(e);
             }
