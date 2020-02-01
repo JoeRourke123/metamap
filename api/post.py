@@ -3,7 +3,6 @@ from flask import Flask, session, request, url_for, render_template, redirect, a
 from flask import current_app as app
 
 from datetime import datetime
-from bson import json_util
 
 from api.database import Database
 from api.account import login_required

@@ -45,6 +45,7 @@ def index():
 api.add_resource(Login, '/login')
 api.add_resource(Signup, '/signup')
 api.add_resource(Post, '/post')
+api.add_resource(Upload, '/upload')
 
 if __name__ == '__main__': 
     app.run(debug = True)
