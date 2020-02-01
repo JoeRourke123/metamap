@@ -30,6 +30,9 @@ class Upload(Resource):
     def __init__(self):
         super().__init__()
 
+        if not os.path.exists("temp/"):
+            os.makedirs("temp/")
+
     @login_required
     def post(self):
         data = request.files.get("data")
