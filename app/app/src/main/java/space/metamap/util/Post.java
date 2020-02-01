@@ -1,2 +1,0 @@
-package space.metamap.util;
-
