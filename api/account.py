@@ -2,6 +2,8 @@ from flask_restful import Resource, Api
 from flask import Flask, session, request, url_for, render_template, redirect, abort, escape, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from flask import current_app as app
+
 from datetime import datetime
 
 from api.database import Database
@@ -27,7 +29,7 @@ class Login(Resource):
         session["authenticated"] = True
         session["user"] = user
 
-        return {"message": "Login successful", "username": data.get("username"}, 200
+        return {"message": "Login successful", "username": data.get("username")}, 200
 
 class Signup(Resource):
     def __init__(self):

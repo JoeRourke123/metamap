@@ -13,3 +13,6 @@ class Database:
     
     def get_pastes(self):
         return self.pastes
+
+    def get_client(self):
+        return self.client
