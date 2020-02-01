@@ -15,6 +15,7 @@
 	<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	<uses-permission android:name="android.permission.INTERNET"/>
 
 	<application
 		android:allowBackup="true"
@@ -46,7 +47,7 @@
 			</intent-filter>
 		</activity>
 		<receiver
-			android:name="../java/space.metamap/MyRadarReceiver"
+			android:name="space.metamap.MyRadarReciever"
 			android:enabled="true"
 			android:exported="false">
 			<intent-filter>
