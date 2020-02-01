@@ -52,6 +52,4 @@ public class RecieveUser {
             System.err.println(e);
         }
     }
-
-
 }

@@ -1,5 +1,7 @@
 # API docs
 
+Need to make posts have post_ID.
+
 ## Login
 
 `curl -v -X POST --data '{"username": "snake", "password": "plane"}' --header "Content-Type:application/json" https://metamapp.herokuapp.com/login`
@@ -10,4 +12,8 @@
 
 ## Create post
 
-`curl -v -X POST --data '{"operation": "add", "type": "text", "data": "tums festival", "coordinates": [LAT, LONG], "timestamp" : "UTC_TIME"' --header "Content-Type:application/json" https://metamapp.herokuapp.com/post`
+`curl -v -X POST --data '{"operation": "add", "type": "text", "data": "tums festival", "coordinates": [LAT, LONG]}' --header "Content-Type:application/json" https://metamapp.herokuapp.com/post`
+
+## Get posts
+
+`curl -v -X POST --data '{"operation": "get", "coordinates": [LAT, LONG]}' --header "Content-Type:application/json" https://metamapp.herokuapp.com/post`
