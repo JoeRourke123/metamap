@@ -11,12 +11,19 @@ import android.content.Context;
 import org.json.JSONObject;
 import org.json.*;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.net.URL;
+
 public class RecieveUser {
 
-    public RecieveUser(Context context, final String username, final String password) {
+    public void RecieveUser1(Context context, final String username, final String password) {
         String url = "https://metamapp.herokuapp.com/login";
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -27,9 +34,10 @@ public class RecieveUser {
                 System.out.println(response.substring(0, 500));
                 try {
                     JSONObject json = new JSONObject(response);
+                    System.out.println(json.getString("body"));
                 }
                 catch(JSONException e) {
-
+                    System.out.println(e.toString());
                 }
 
             }
@@ -48,5 +56,6 @@ public class RecieveUser {
         };
         requestQueue.add(stringRequest);
     }
+
 
 }
