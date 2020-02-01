@@ -7,16 +7,15 @@ from flask_session import Session
 from datetime import datetime
 from random import choice
 
-#from mongoengine_jsonencoder import MongoEngineJSONEncoder
-
 import json
-import requests #ignore this comment
+import requests
 import string
 import os
 
 from api.account import Login, Signup
 from api.database import Database
 from api.post import Post
+from api.upload import Upload
 
 app = Flask(__name__)
 app.app_context().push()

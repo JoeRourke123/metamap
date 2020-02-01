@@ -54,7 +54,7 @@ class Signup(Resource):
         users.insert_one({
                             "username": data["username"],
                             "password": generate_password_hash(escape(data.get("password"))),
-                            "creation": datetime.now(),
+                            "creation": datetime.now().isoformat(),
                             "ip": request.remote_addr
                           })
 

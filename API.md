@@ -1,5 +1,7 @@
 # API docs
 
+Need to make posts have post_ID.
+
 ## Login
 
 `curl -v -X POST --data '{"username": "snake", "password": "plane"}' --header "Content-Type:application/json" https://metamapp.herokuapp.com/login`
