@@ -14,11 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RecievePosts {
-    public RecievePosts() {
 
-    }
-
-    public void get(final Location location, Context context) {
+    public static void get(final Location location, Context context) {
         String url = "https://metamapp.herokuapp.com/post";
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);

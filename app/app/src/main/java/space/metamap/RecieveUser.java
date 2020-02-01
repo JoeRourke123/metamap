@@ -14,9 +14,7 @@ import java.util.Map;
 
 public class RecieveUser {
 
-    public RecieveUser() {}
-
-    public void RecieveUser1(Context context, final String username, final String password) {
+    public static void RecieveUser1(Context context, final String username, final String password) {
         String url = "https://metamapp.herokuapp.com/login";
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
