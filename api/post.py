@@ -39,6 +39,9 @@ class Post(Resource):
             elif post_type == "link":
                 post["type"] = "link"
                 post["link"] = data.get("link")
+            elif post_type == "image":
+                post["type"] = "image"
+                post["link"] = data.get("link")
             else:
                 return {"error": "Invalid type"}, 418
             
