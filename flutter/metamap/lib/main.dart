@@ -257,7 +257,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
         currentIndex: state.selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Colors.blue[800],
         onTap: (val) {
           setState(() {
             state.selectedIndex = val;
