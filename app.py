@@ -40,8 +40,11 @@ Session(app)
 
 @app.route("/", methods=["GET"])
 def index():
-    #session["authenticated"] = True
-    return '{"hello": "there"}', status.HTTP_201_CREATED, {'Content-Type':'application/json'}
+    return  '''{"name": "metamap",
+                "timestamp": "2020-02-02T06:38:36.47069",
+                "about": ["a location based social network", "you can post things like text, links and images"],
+                "by": ["joseph rourke", "sean escreet", "george honeywood"]
+                }''', status.HTTP_200_OK, {'Content-Type':'application/json'}
 
 api.add_resource(Login, '/login')
 api.add_resource(Signup, '/signup')
@@ -54,4 +57,4 @@ api.add_resource(Like, '/like')
 api.add_resource(Unlike, '/unlike')
 
 if __name__ == '__main__': 
-    app.run(debug = True, host="0.0.0.0")
+    app.run(debug = True)
