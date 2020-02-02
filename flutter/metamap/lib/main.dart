@@ -14,7 +14,7 @@ import 'signin.dart';
 import 'new.dart';
 
 class MetamapState extends ChangeNotifier {
-  List<Post> posts = [];
+  List<Post> postList = [];
   Position position;
   String cookie;
   BuildContext rootContext;
@@ -109,8 +109,10 @@ class MetamapState extends ChangeNotifier {
     client.close();
 
     List<Post> posts = (reply["posts"] as List).map((post) {
-      return Post(post["type"], post["username"], post["location"]["coordinates"], post["data"], DateTime.parse(post["timestamp"]), post["liked"], post["likes"])
-    });
+      return Post(post["type"], post["username"], post["location"]["coordinates"], post["data"], DateTime.parse(post["timestamp"]), post["liked"], post["likes"]);
+    }).toList();
+
+    postList = posts;
 
     return reply;
   }
