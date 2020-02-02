@@ -39,10 +39,8 @@ class _FeedPageState extends State<FeedPage> {
           } else {
             print(snapshot.error);
             return Center(
-              child: Text(
-                  "Loading...",
-                style: TextStyle(fontSize: 24)
-              )
+              child: CircularProgressIndicator()
+
             );
           }
         }

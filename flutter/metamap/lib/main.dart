@@ -114,12 +114,37 @@ class MetamapState extends ChangeNotifier {
     client.close();
 
     List<Post> posts = (reply["posts"] as List).map((post) {
-      return Post(post["type"], post["username"], post["location"]["coordinates"], post["data"], DateTime.parse(post["timestamp"]), post["liked"], post["likes"]);
+      return Post(post["type"], post["username"], post["location"]["coordinates"], post["data"], DateTime.parse(post["timestamp"]), post["liked"], post["likes"], post["post_id"]);
     }).toList();
 
     postList = posts;
 
     return reply;
+  }
+
+  Future likePost(Post post) async {
+    var apiUrl = Uri.parse('https://metamapp.herokuapp.com/like');
+    var client = HttpClient(); // `new` keyword optional
+
+    // 1. Create request
+    HttpClientRequest request = await client.postUrl(apiUrl);
+    request.headers.add('Content-type','application/json');
+    request.headers.add('Accept','application/json');
+    request.headers.add('Cookie', 'flask_sess=${cookie}');
+    // 2. Add payload to request
+
+    var payload = {
+      "post_id": post.postID
+    };
+    request.write(json.encode(payload));
+
+    // 3. Send the request
+    HttpClientResponse response = await request.close();
+
+    Map reply = json.decode(await response.transform(utf8.decoder).join());
+    client.close();
+
+    print(reply);
   }
 
   Future addPost(Map data) async {
