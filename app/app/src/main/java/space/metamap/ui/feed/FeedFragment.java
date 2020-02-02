@@ -1,10 +1,8 @@
 package space.metamap.ui.feed;
 
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -30,7 +28,6 @@ import space.metamap.Post;
 import space.metamap.PostList;
 import space.metamap.R;
 import space.metamap.postelements.PostElement;
-import space.metamap.util.LocationInterface;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -44,7 +41,6 @@ public class FeedFragment extends Fragment {
 	public void setTextField(Location l) {
 		coords.setText(String.format("%f, %f", l.getLongitude(), l.getLatitude()));
 	}
-
 
 	public void updatePosts(PostList posts) {
 		adapter = new ArrayAdapter<>(getContext(), R.layout.post);
