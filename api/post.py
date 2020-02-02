@@ -46,7 +46,7 @@ class Post(Resource):
                 return {"error": "Invalid type"}, 418
             
             posts.insert_one(post)
-            return {"message": "Post created successfully"}, 200
+            return {"message": "Post created successfully", "post_id": post["post_id"]}, 201
         
         elif data.get("operation") == "get":
             coordinates = data.get("coordinates")
@@ -58,7 +58,7 @@ class Post(Resource):
                                                 "type": "Point" ,
                                                 "coordinates": [coordinates[0], coordinates[1]]
                                             },
-                                            "$maxDistance": 100,
+                                            "$maxDistance": 1000,
                                             "$minDistance": 0
                                             }
                                         }
