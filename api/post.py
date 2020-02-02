@@ -31,19 +31,12 @@ class Post(Resource):
                                     "coordinates": data.get("coordinates")
                                 },
                     "timestamp": datetime.now().isoformat(),
-                    "likes": []
+                    "likes": [],
+                    "type": data.get("type"),
+                    "data": data.get("data")
                     }
-            if post_type == "text":
-                post["type"] = "text"
-                post["data"] = data.get("data")
-            elif post_type == "link":
-                post["type"] = "link"
-                post["link"] = data.get("link")
-            elif post_type == "image":
-                post["type"] = "image"
-                post["link"] = data.get("link")
-            else:
-                return {"error": "Invalid type"}, 418
+
+            #return {"error": "Invalid type"}, 418 # who needs error checking anyways
             
             posts.insert_one(post)
             return {"message": "Post created successfully", "post_id": post["post_id"]}, 201
