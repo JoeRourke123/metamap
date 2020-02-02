@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'main.dart';
 
 class MapPage extends StatefulWidget {
-  MapPage({Key key}) : super(key: key);
+  MapPage({Key key, this.nav}) : super(key: key);
+
+  final State<MyHomePage> nav;
 
   @override
   _MapState createState() => _MapState();
@@ -18,7 +21,6 @@ class _MapState extends State<MapPage> {
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
-    
   }
 
   @override
@@ -35,10 +37,16 @@ class _MapState extends State<MapPage> {
             markers: state.postList.map((post) {return new Marker(
                 markerId: MarkerId(post.date.toString()),
                 infoWindow: InfoWindow (
-            title: "Post from ${post.username}"
+            title: "Post from ${post.username}",
+                  snippet: "${post.content}"
             ),
                 position: LatLng(post.coordinates[0],
-                    post.coordinates[1]));
+                    post.coordinates[1]),
+              onTap: () {
+              setState(() {
+                state.selectedIndex = 0;
+              });
+            });
             }).toSet()
         )
         );
