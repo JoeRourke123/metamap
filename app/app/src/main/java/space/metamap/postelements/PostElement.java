@@ -51,6 +51,11 @@ public class PostElement extends Fragment {
         ids.put("spotify", R.id.spotify);
         ids.put("youtube", R.id.youtube);
 
+        username.setText(post.getUsername());
+        body.setText(post.getContent());
+        likes.setText("5");
+        distance.setText(post.getDistance(location));
+
         (root.findViewById(ids.get(post.getType()))).setVisibility(View.VISIBLE);
 
         return root;

@@ -4,8 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
+import android.util.TypedValue;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
@@ -60,7 +66,6 @@ public class RecievePosts extends Thread {
             Request jsonRequest = new Request(Request.Method.POST, url, new JSONObject(String.format("{\"operation\": \"get\",\"coordinates\": [%f, %f]}", latitude, longitude)), new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject res) {
-                    System.out.println("DOES THIS WORK: " + res);
                     JSONArray posts = new JSONArray();
                     try {
                         posts = res.getJSONObject("data").getJSONArray("posts");
@@ -76,15 +81,35 @@ public class RecievePosts extends Thread {
                     }
 
 
-                    ArrayList<PostElement> postElements = new ArrayList<>();
+                    ArrayList<CardView> cardViews = new ArrayList<>();
                     for(Post post : postList.getList()) {
                         Location temp = new Location("");
-                        temp.setLongitude(post.getCoordinate().getLongitude());
-                        temp.setLatitude(post.getCoordinate().getLatitude());
-                        PostElement postElement =  new PostElement(post, temp);
-                        postElements.add(postElement);
+                        temp.setLongitude(longitude);
+                        temp.setLatitude(latitude);
+
+                        CardView cardView = new CardView(context);
+                        LayoutParams params = new LayoutParams(
+                                LayoutParams.WRAP_CONTENT,
+                                LayoutParams.WRAP_CONTENT
+                        );
+                        cardView.setLayoutParams(params);
+                        cardView.setRadius(9);
+                        cardView.setContentPadding(15, 15, 15, 15);
+                        // Set the CardView maximum elevation
+                        cardView.setMaxCardElevation(15);
+
+                        // Set CardView elevation
+                        cardView.setCardElevation(9);
+                        TextView textView = new TextView(context);
+                        textView.setText(post.getUsername());
+                        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
+                        textView.setLayoutParams(params);
+                        cardView.addView(textView);
+
+                        cardViews.add(cardView);
+
                     }
-                    ArrayAdapter<PostElement> arrayAdapter = new ArrayAdapter<PostElement>(context, android.R.layout.simple_list_item_1, postElements);
+                    ArrayAdapter<CardView> arrayAdapter = new ArrayAdapter<CardView>(context, android.R.layout.simple_list_item_1, cardViews);
                     feedList.setAdapter(arrayAdapter);
                 }
             }, new Response.ErrorListener() {
