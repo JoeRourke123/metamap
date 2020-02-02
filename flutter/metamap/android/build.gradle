@@ -22,6 +22,12 @@ buildscript {
             }
         }
     }
+
+    configurations.all {
+        resolutionStrategy {
+            force 'androidx.media:media:1.0.0'
+        }
+    }
 }
 
 allprojects {
