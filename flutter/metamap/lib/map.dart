@@ -48,7 +48,7 @@ class _MapState extends State<MapPage> {
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
               target: LatLng(state.position.latitude, state.position.longitude),
-              zoom: 11.0,
+              zoom: 14.0,
             ),
             markers: markers,
             circles: Set.from([Circle(
