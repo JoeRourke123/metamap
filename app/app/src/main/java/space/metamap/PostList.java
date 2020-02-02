@@ -3,10 +3,17 @@ package space.metamap;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.ArrayAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.radar.sdk.model.Coordinate;
+import space.metamap.postelements.PostElement;
 import space.metamap.util.LocationInterface;
 
 public class PostList implements Parcelable {
@@ -21,8 +28,9 @@ public class PostList implements Parcelable {
         parcel.readList(list, Post.class.getClassLoader());
     }
 
-    public void getRetrieveList(Context context, double latitude, double longitude) {
-        RecievePosts.receivePost(context, latitude, longitude, this);
+    public void getRetrieveList(Context context, double latitude, double longitude, ArrayAdapter<PostElement> adapter) {
+        RecievePosts response = new RecievePosts(context, latitude, longitude, this, adapter);
+        response.run();
     }
 
     public ArrayList<Post> getList() {

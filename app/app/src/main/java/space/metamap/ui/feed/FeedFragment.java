@@ -40,20 +40,10 @@ public class FeedFragment extends Fragment {
 	private ListView feedList;
 	private ArrayAdapter<PostElement> adapter;
 	private TextView coords;
+	private final Location location = new Location(LocationManager.GPS_PROVIDER);;
 
 	public void setTextField(Location l) {
 		coords.setText(String.format("%f, %f", l.getLongitude(), l.getLatitude()));
-	}
-
-
-	public void updatePosts(PostList posts) {
-		adapter = new ArrayAdapter<>(getContext(), R.layout.post);
-
-		for(Post post : posts.getList()) {
-			adapter.add(new PostElement(post));
-		}
-
-		feedList.setAdapter(adapter);
 	}
 
 	public View onCreateView(@NonNull LayoutInflater inflater,
@@ -66,7 +56,6 @@ public class FeedFragment extends Fragment {
 
 
 		FusedLocationProviderClient locationProvider = LocationServices.getFusedLocationProviderClient(getContext());
-		final Location location = new Location(LocationManager.GPS_PROVIDER);
 
 		ActivityCompat.requestPermissions(getActivity(), new String[] { ACCESS_FINE_LOCATION }, 1);
 
@@ -79,11 +68,12 @@ public class FeedFragment extends Fragment {
 				coords = root.findViewById(R.id.coords);
 				setTextField(loc);
 				location.set(loc);
-				posts.getRetrieveList(getContext(), loc.getLatitude(), loc.getLongitude());
+				adapter = new ArrayAdapter<>(getContext(), R.layout.post);
+				posts.getRetrieveList(getContext(), loc.getLatitude(), loc.getLongitude(), adapter);
+
+				System.out.println("HHHHHHHHHHHHHHHHHHHH" + posts.getList().size());
 			}
 		});
-
-		updatePosts(posts);
 
 		locationProvider.requestLocationUpdates(LocationRequest.create(), new LocationCallback() {
 			@Override
