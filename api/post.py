@@ -30,7 +30,8 @@ class Post(Resource):
                                     "type": "Point",
                                     "coordinates": data.get("coordinates")
                                 },
-                    "timestamp": datetime.now().isoformat()
+                    "timestamp": datetime.now().isoformat(),
+                    "likes": []
                     }
             if post_type == "text":
                 post["type"] = "text"
@@ -38,11 +39,14 @@ class Post(Resource):
             elif post_type == "link":
                 post["type"] = "link"
                 post["link"] = data.get("link")
+            elif post_type == "image":
+                post["type"] = "image"
+                post["link"] = data.get("link")
             else:
                 return {"error": "Invalid type"}, 418
             
             posts.insert_one(post)
-            return {"message": "Post created successfully"}, 200
+            return {"message": "Post created successfully", "post_id": post["post_id"]}, 201
         
         elif data.get("operation") == "get":
             coordinates = data.get("coordinates")
@@ -54,7 +58,7 @@ class Post(Resource):
                                                 "type": "Point" ,
                                                 "coordinates": [coordinates[0], coordinates[1]]
                                             },
-                                            "$maxDistance": 100,
+                                            "$maxDistance": 1000,
                                             "$minDistance": 0
                                             }
                                         }
@@ -63,13 +67,18 @@ class Post(Resource):
                                     '_id': False
                                     })
 
-            # nearPostList = []
+            username = session["user"].get("username")
+            nearPostList = []
 
-            # for post in nearPosts:
-            #     post["timestamp"] = post["timestamp"]
-            #     nearPostList.append(post)
+            for post in nearPosts:
+                if username in post.get("likes"):
+                    post["liked"] = True
+                else:
+                    post["liked"] = False
+
+                nearPostList.append(post)
                 
-            return {"posts": [post for post in nearPosts]}, 200
+            return {"posts": nearPostList}, 200
 
         else:
             return {"error": "Invalid operation"}, 405
