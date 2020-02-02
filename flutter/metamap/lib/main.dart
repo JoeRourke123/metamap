@@ -61,6 +61,7 @@ class MetamapState extends ChangeNotifier {
     HttpClientRequest request = await client.postUrl(apiUrl);
     request.headers.add('Content-type','application/json');
     request.headers.add('Accept','application/json');
+
     // 2. Add payload to request
     var payload = {
       "username": username,
@@ -94,6 +95,8 @@ class MetamapState extends ChangeNotifier {
     print(cookie);
     request.headers.add('Cookie', 'flask_sess=${cookie}');
     // 2. Add payload to request
+
+    position = await _getPosition();
 
     var payload = {
       "operation": "get",

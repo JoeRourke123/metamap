@@ -58,6 +58,8 @@ class Post {
           )
         );
         break;
+      case "youtube":
+        body =
     }
 
     return Container(

@@ -30,7 +30,12 @@ class _FeedPageState extends State<FeedPage> {
             );
           } else {
             print(snapshot.error);
-            return Text("Something went wrong");
+            return Center(
+              child: Text(
+                  "Loading...",
+                style: TextStyle(fontSize: 24)
+              )
+            );
           }
         }
       );
