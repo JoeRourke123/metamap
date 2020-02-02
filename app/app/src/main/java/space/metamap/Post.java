@@ -1,5 +1,6 @@
 package space.metamap;
 
+import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -54,8 +55,8 @@ public class Post implements Parcelable {
         return username;
     }
 
-    public String getDistance(Coordinate coordinate) {
-        return String.valueOf(distance(this.coordinate.getLatitude(), this.coordinate.getLongitude(), coordinate.getLatitude(), coordinate.getLongitude()));
+    public String getDistance(Location location) {
+        return String.valueOf(distance(this.coordinate.getLatitude(), this.coordinate.getLongitude(), location.getLatitude(), location.getLongitude()));
     }
     private double distance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;

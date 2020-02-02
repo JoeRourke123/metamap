@@ -1,5 +1,6 @@
 package space.metamap.postelements;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +20,11 @@ import space.metamap.R;
 public class PostElement extends Fragment {
 
     final Post post;
+    final Location location;
 
-    public PostElement(Post post) {
+    public PostElement(Post post, Location location) {
         this.post = post;
+        this.location = location;
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -36,10 +39,10 @@ public class PostElement extends Fragment {
 
         final LikeButton liked = root.findViewById(R.id.liked);
 
-        username.setText("from @" + savedInstanceState.getString("username"));
-        body.setText(savedInstanceState.getString("body"));
-        likes.setText(savedInstanceState.getString("likes"));
-        distance.setText("Posted from " + savedInstanceState.getString("distance" + "km away"));
+        username.setText("from @" + post.getUsername());
+        body.setText(post.getContent());
+        likes.setText("42");
+        distance.setText("Posted from " + post.getDistance(location) + "km away");
         liked.setLiked(savedInstanceState.getBoolean("liked"));
 
         HashMap<String, Integer> ids = new HashMap<>();
@@ -48,7 +51,7 @@ public class PostElement extends Fragment {
         ids.put("spotify", R.id.spotify);
         ids.put("youtube", R.id.youtube);
 
-        (root.findViewById(ids.get(savedInstanceState.getString("type")))).setVisibility(View.VISIBLE);
+        (root.findViewById(ids.get(post.getType()))).setVisibility(View.VISIBLE);
 
         return root;
     }
