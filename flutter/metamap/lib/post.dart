@@ -7,16 +7,16 @@ import 'package:flutter/material.dart';
 class Post {
   String type;
   String username;
-  List<double> coordinates;
+  List coordinates;
   String content;
   DateTime date;
 
   bool liked;
-  List<String> likes;
+  List likes;
 
   Post(this.type, this.username, this.coordinates, this.content, this.date, this.liked, this.likes);
 
-  int getDistance(double lat, double lon) {
+  String getDistance(double lat, double lon) {
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat-coordinates[0]);  // deg2rad below
     var dLon = deg2rad(lon-coordinates[1]);
@@ -27,7 +27,7 @@ class Post {
     ;
     var c = 2 * atan2(sqrt(a), sqrt(1-a));
     var d = R * c; // Distance in km
-    return d.round();
+    return d.toStringAsFixed(1);
   }
 
   double deg2rad(deg) {
@@ -38,7 +38,7 @@ class Post {
   String getUser() => username;
   String getContent() => content;
 
-  Widget generateWidget() {
+  Widget generateWidget(double latitude, double longitude) {
     List<Color> randomColour = [[Colors.deepOrange, Colors.orange], [Colors.green, Colors.greenAccent], [Colors.purple, Colors.deepPurple],
       [Colors.red, Colors.deepOrange], [Colors.blue, Colors.lightBlueAccent]][new Random().nextInt(5)];
 
@@ -53,7 +53,7 @@ class Post {
         body = Text(
           content,
           style: TextStyle(
-            fontSize: 18,
+            fontSize: 22,
             color: Colors.white
           )
         );
@@ -79,11 +79,25 @@ class Post {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "from @" + username
+              "from @" + username,
+              style: TextStyle(
+                color: Colors.white70,
+              )
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 5)
             ),
+            body,
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5)
+            ),
+            Text(
+              "Posted " + getDistance(latitude, longitude).toString() + "km from you, " + (DateTime.now().difference(date).inHours | 1).toString() + " hours ago",
+              style: TextStyle(
+                color: Colors.white70
+              )
+            ),
+
           ]
       ),
     );
