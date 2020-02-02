@@ -64,6 +64,7 @@ class MetamapState extends ChangeNotifier {
     HttpClientRequest request = await client.postUrl(apiUrl);
     request.headers.add('Content-type','application/json');
     request.headers.add('Accept','application/json');
+
     // 2. Add payload to request
     var payload = {
       "username": username,
@@ -98,6 +99,7 @@ class MetamapState extends ChangeNotifier {
     request.headers.add('Cookie', 'flask_sess=${cookie}');
     // 2. Add payload to request
 
+    position = await _getPosition();
 
     var payload = {
       "operation": "get",
@@ -118,6 +120,34 @@ class MetamapState extends ChangeNotifier {
     postList = posts;
 
     return reply;
+  }
+
+  Future addPost(Map data) async {
+    var apiUrl = Uri.parse('https://metamapp.herokuapp.com/post');
+    var client = HttpClient(); // `new` keyword optional
+
+    // 1. Create request
+    HttpClientRequest request = await client.postUrl(apiUrl);
+    request.headers.add('Content-type','application/json');
+    request.headers.add('Accept','application/json');
+    request.headers.add('Cookie', 'flask_sess=${cookie}');
+    // 2. Add payload to request
+
+    var payload = {
+      "operation": "add",
+      "coordinates": [position.latitude, position.longitude],
+      "data": data["content"],
+      "type": data["type"]
+    };
+    request.write(json.encode(payload));
+
+    // 3. Send the request
+    HttpClientResponse response = await request.close();
+
+    Map reply = json.decode(await response.transform(utf8.decoder).join());
+    client.close();
+
+    print(reply);
   }
 
 }
@@ -231,7 +261,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
         currentIndex: state.selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Colors.blue[800],
         onTap: (val) {
           setState(() {
             state.selectedIndex = val;

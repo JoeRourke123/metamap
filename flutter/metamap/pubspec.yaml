@@ -28,6 +28,8 @@ dependencies:
 
   shared_preferences: ^0.5.4
 
+  url_launcher: ^5.2.9
+
   google_maps_flutter: ^0.5.11
 
 

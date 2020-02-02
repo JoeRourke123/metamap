@@ -1,6 +1,6 @@
 # metamap.space
 
-A location based social network.
+A location based social network. It allows users to post stuff to their location, and only users within a certain radius (1km) can view them.
 
 You can post things like:
 

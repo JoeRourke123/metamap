@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Post {
   String type;
@@ -42,11 +43,9 @@ class Post {
     List<Color> randomColour = [[Colors.deepOrange, Colors.orange], [Colors.green, Colors.greenAccent], [Colors.purple, Colors.deepPurple],
       [Colors.red, Colors.deepOrange], [Colors.blue, Colors.lightBlueAccent]][new Random().nextInt(5)];
 
-    Widget body;
+    print(type);
 
-    if(type != "text") {
-      randomColour = [Colors.white60, Colors.white70];
-    }
+    Widget body;
 
     switch(type) {
       case "text":
@@ -56,6 +55,35 @@ class Post {
             fontSize: 22,
             color: Colors.white
           )
+        );
+        break;
+      case "youtube":
+        print(content);
+        body = RaisedButton(
+          child: Text("Open Youtube Link"),
+          color: Colors.white,
+          textColor: randomColour[0],
+          onPressed: () async {
+              if (await canLaunch(content)) {
+                await launch(content);
+              } else {
+                throw 'Could not launch $content';
+              }
+          },
+        );
+        break;
+      case "spotify":
+        body = RaisedButton(
+          child: Text("Open Spotify Link"),
+          color: Colors.white,
+          textColor: randomColour[0],
+          onPressed: () async {
+            if (await canLaunch(content)) {
+              await launch(content);
+            } else {
+              throw 'Could not launch $content';
+            }
+          }
         );
         break;
     }
