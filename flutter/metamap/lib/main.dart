@@ -18,6 +18,9 @@ class MetamapState extends ChangeNotifier {
   Position position;
   String cookie;
   BuildContext rootContext;
+  ScrollController scrollController = new ScrollController();
+  int index = 0;
+  int selectedIndex = 0;
 
   MetamapState(BuildContext context) {
     rootContext = context;
@@ -148,7 +151,6 @@ class MetamapState extends ChangeNotifier {
   }
 
 }
-
 void main() => runApp(
     ChangeNotifierProvider(
         create: (_) => MetamapState(_),
@@ -210,18 +212,13 @@ class MyHomePage extends StatefulWidget {
 
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 0;
+
   List<Widget> widgetPages = <Widget>[
     FeedPage(),
     MapPage(),
     NewPage(),
   ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -241,10 +238,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Flex(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        children: [widgetPages.elementAt(_selectedIndex)],
+        children: [widgetPages.elementAt(Provider.of<MetamapState>(context, listen: true).selectedIndex)],
         direction: Axis.vertical
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: Consumer<MetamapState>(builder: (context, state, x) { return BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
@@ -259,10 +256,14 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text('New Post'),
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: state.selectedIndex,
         selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        onTap: (val) {
+          setState(() {
+            state.selectedIndex = val;
+          });
+        },
+      );}), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

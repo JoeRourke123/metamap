@@ -16,6 +16,13 @@ class _FeedPageState extends State<FeedPage> {
   GlobalKey feedKey;
 
   @override
+  void initState() {
+    super.initState();
+    Consumer<MetamapState>(builder: (context, state, x) {
+      state.scrollController.animateTo(MediaQuery.of(context).size.height*state.index, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+    });
+  }
+  @override
   Widget build(BuildContext context) {
     return Expanded(child: Consumer<MetamapState>(builder: (context, state, x) {
       return FutureBuilder(
@@ -27,6 +34,7 @@ class _FeedPageState extends State<FeedPage> {
             return ListView.builder(
               itemCount: widgetList.length,
               itemBuilder: (context, index) => Padding(padding: EdgeInsets.all(20), child: widgetList[index]),
+              controller: state.scrollController,
             );
           } else {
             print(snapshot.error);

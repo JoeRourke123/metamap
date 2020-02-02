@@ -29,6 +29,7 @@ dependencies:
   shared_preferences: ^0.5.4
 
   flutter_youtube: "^2.0.0"
+  google_maps_flutter: ^0.5.11
 
 
   # The following adds the Cupertino Icons font to your application.
