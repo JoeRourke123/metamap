@@ -47,6 +47,10 @@ public class Post implements Parcelable {
         dest.writeString(type);
     }
 
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+
     public String getContent() {
         return content;
     }

@@ -27,11 +27,13 @@ public class PostList implements Parcelable {
     public PostList(Parcel parcel) {
         parcel.readList(list, Post.class.getClassLoader());
     }
-
+/*
     public void getRetrieveList(Context context, double latitude, double longitude, ArrayAdapter<PostElement> adapter) {
         RecievePosts response = new RecievePosts(context, latitude, longitude, this, adapter);
         response.run();
     }
+
+ */
 
     public ArrayList<Post> getList() {
         return list;

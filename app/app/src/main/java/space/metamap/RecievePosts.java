@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
@@ -20,6 +21,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -32,29 +35,65 @@ import space.metamap.util.Request;
 
 import static android.content.Context.MODE_PRIVATE;
 
-class RecievePosts extends Thread {
+public class RecievePosts extends Thread {
+
     private final Context context;
     private final double latitude, longitude;
     private final PostList postList;
-    private final ArrayAdapter<PostElement> adapter;
+    //private JSONObject resp;
+    private ListView feedList;
 
-    public RecievePosts(final Context context, final double latitude, final double longitude, final PostList postList, final ArrayAdapter<PostElement> adapter) {
-        this.context = context;
+    public RecievePosts(PostList postList, final Context context, double latitude, double longitude, ListView feedList) {
         this.longitude = longitude;
         this.latitude = latitude;
+        this.context = context;
         this.postList = postList;
-        this.adapter = adapter;
+        this.feedList = feedList;
     }
 
     public void run() {
         String url = "https://metamapp.herokuapp.com/post";
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        RequestFuture<JSONObject> future = RequestFuture.newFuture();
 
         try {
-            Request jsonRequest = new Request(Request.Method.POST, url, new JSONObject(String.format("{\"operation\": \"get\",\"coordinates\": [%f, %f]}", latitude, longitude)), future, future) {
+            Request jsonRequest = new Request(Request.Method.POST, url, new JSONObject(String.format("{\"operation\": \"get\",\"coordinates\": [%f, %f]}", latitude, longitude)), new Response.Listener<JSONObject>() {
                 @Override
+                public void onResponse(JSONObject res) {
+                    System.out.println("DOES THIS WORK: " + res);
+                    JSONArray posts = new JSONArray();
+                    try {
+                        posts = res.getJSONObject("data").getJSONArray("posts");
+                        for(int i = 0; i < posts.length(); i++) {
+                            String tempType = ((JSONObject)posts.get(i)).getString("type");
+                            String tempContent = ((JSONObject)posts.get(i)).getString("data");
+                            String tempUsername = ((JSONObject)posts.get(i)).getString("username");
+                            Coordinate tempCoordinate  = new Coordinate((double)((JSONObject)posts.get(i)).getJSONObject("location").getJSONArray("coordinates").get(0), (double)((JSONObject)posts.get(i)).getJSONObject("location").getJSONArray("coordinates").get(1));
+                            postList.addToList(new Post(tempType, tempContent, tempUsername, tempCoordinate));
+                        }
+                    }catch (JSONException e) {
+                        System.err.println(e);
+                    }
+
+
+                    ArrayList<PostElement> postElements = new ArrayList<>();
+                    for(Post post : postList.getList()) {
+                        Location temp = new Location("");
+                        temp.setLongitude(post.getCoordinate().getLongitude());
+                        temp.setLatitude(post.getCoordinate().getLatitude());
+                        PostElement postElement =  new PostElement(post, temp);
+                        postElements.add(postElement);
+                    }
+                    ArrayAdapter<PostElement> arrayAdapter = new ArrayAdapter<PostElement>(context, android.R.layout.simple_list_item_1, postElements);
+                    feedList.setAdapter(arrayAdapter);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            }) {
+            @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     SharedPreferences preferences = context.getSharedPreferences("metamapp", MODE_PRIVATE);
 
@@ -68,31 +107,6 @@ class RecievePosts extends Thread {
             System.err.println(e);
         }
 
-        try {
-            JSONArray response = future.get(20, TimeUnit.SECONDS).getJSONArray("data");
-
-            for(int i = 0; i < response.length(); i++) {
-                Coordinate coord = new Coordinate(
-                        (Double) response.getJSONObject(i).getJSONObject("location").getJSONArray("coordinates").get(0),
-                        (Double) response.getJSONObject(i).getJSONObject("location").getJSONArray("coordinates").get(1)
-                );
-
-                Post post = new Post((String) response.getJSONObject(i).get("type"), (String) response.getJSONObject(i).get("data"), (String) response.getJSONObject(i).get("username"), coord);
-                postList.addToList(post);
-                Location location = new Location(LocationManager.GPS_PROVIDER);
-                location.setLatitude(latitude);
-                location.setLongitude(longitude);
-                adapter.add(new PostElement(post, location));
-
-            }
-
-            Thread.yield();
-        } catch(JSONException e) {
-            e.printStackTrace();
-        } catch (InterruptedException | TimeoutException e) {
-            System.err.println(e);
-        } catch (ExecutionException e) {
-            System.err.println(e);
-        }
+        Thread.yield();
     }
 }

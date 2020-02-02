@@ -24,11 +24,18 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.common.util.concurrent.ListenableFuture;
+
+import java.util.concurrent.CompletionService;
+import java.util.concurrent.ExecutorCompletionService;
+
+import javax.xml.transform.Result;
 
 import space.metamap.MainActivity;
 import space.metamap.Post;
 import space.metamap.PostList;
 import space.metamap.R;
+import space.metamap.RecievePosts;
 import space.metamap.postelements.PostElement;
 import space.metamap.util.LocationInterface;
 
@@ -69,8 +76,10 @@ public class FeedFragment extends Fragment {
 				setTextField(loc);
 				location.set(loc);
 				adapter = new ArrayAdapter<>(getContext(), R.layout.post);
-				posts.getRetrieveList(getContext(), loc.getLatitude(), loc.getLongitude(), adapter);
+				//posts.getRetrieveList(getContext(), loc.getLatitude(), loc.getLongitude(), adapter);
+				RecievePosts recievePosts = new RecievePosts(posts, getContext(), loc.getLatitude(), loc.getLongitude(), feedList);
 
+				recievePosts.run();
 				System.out.println("HHHHHHHHHHHHHHHHHHHH" + posts.getList().size());
 			}
 		});
@@ -85,8 +94,10 @@ public class FeedFragment extends Fragment {
 					location.set(loc);
 					setTextField(loc);
 				}
-			};
+			}
 		}, Looper.getMainLooper());
+
+
 
 		return root;
 	}
