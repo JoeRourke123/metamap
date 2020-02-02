@@ -6,6 +6,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:metamap/main.dart';
 import 'package:provider/provider.dart';
 
+
+class MyImagePicker extends StatefulWidget {
+  @override
+  MyImagePickerState createState() => MyImagePickerState();
+}
 class MyImagePickerState extends State {
 
   File imageURI;
@@ -29,7 +34,7 @@ class MyImagePickerState extends State {
                       margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
                       child: RaisedButton(
                         onPressed: () => getImageFromCamera(),
-                        child: Text('Click Here To Select Image From Camera'),
+                        child: Text('From Camera'),
                         textColor: Colors.white,
                         color: Colors.green,
                         padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
@@ -39,7 +44,7 @@ class MyImagePickerState extends State {
                       margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                       child: RaisedButton(
                         onPressed: () => getImageFromGallery(),
-                        child: Text('Click Here To Select Image From Gallery'),
+                        child: Text('From Gallery'),
                         textColor: Colors.white,
                         color: Colors.green,
                         padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
@@ -77,8 +82,8 @@ class _NewState extends State<NewPage> {
           data["content"] = val;
         },
       ),
-      "image":
-    }
+      "image": MyImagePicker()
+    };
 
     // TODO: implement build
     return Center(
@@ -97,7 +102,8 @@ class _NewState extends State<NewPage> {
                       data["type"] = val;
                     });
                   }
-                )
+                ),
+                currentFormField[data["type"]]
               ]
             )
           )
