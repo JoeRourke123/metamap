@@ -22,10 +22,15 @@ class _FeedPageState extends State<FeedPage> {
         future: state.populatePosts(),
         builder: (context, snapshot) {
           if(snapshot.hasData) {
-            Map data = snapshot.data as Map;
+            List<Widget> widgetList = state.postList.map((post) => post.generateWidget()).toList();
 
-
-            return Text("yo");
+            return ListView.builder(
+              itemCount: widgetList.length,
+              itemBuilder: (context, index) => widgetList[index],
+            );
+          } else {
+            print(snapshot.error);
+            return Text("Something went wrong");
           }
         }
       );

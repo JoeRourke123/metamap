@@ -31,9 +31,9 @@ class MetamapState extends ChangeNotifier {
     });
   }
 
-  Future<Position> _getPosition() {
+  Future<Position> _getPosition() async {
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-    return geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    return await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
 
   }
 
