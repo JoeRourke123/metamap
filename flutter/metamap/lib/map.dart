@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:metamap/post.dart';
 import 'package:provider/provider.dart';
 
 import 'main.dart';
 
 class MapPage extends StatefulWidget {
   MapPage({Key key, this.nav}) : super(key: key);
-
   final State<MyHomePage> nav;
 
   @override
@@ -43,7 +43,8 @@ class _MapState extends State<MapPage> {
                 position: LatLng(post.coordinates[0],
                     post.coordinates[1]),
               onTap: () {
-              setState(() {
+                  state.index = post;
+              widget.nav.setState(() {
                 state.selectedIndex = 0;
               });
             });

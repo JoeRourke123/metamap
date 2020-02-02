@@ -19,7 +19,11 @@ class _FeedPageState extends State<FeedPage> {
   void initState() {
     super.initState();
     Consumer<MetamapState>(builder: (context, state, x) {
-      state.scrollController.animateTo(MediaQuery.of(context).size.height*state.index, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+      int temp = 0;
+      if(state.index != null) {
+        temp = state.postList.indexOf(state.index, 0);
+      }
+      state.scrollController.animateTo(MediaQuery.of(context).size.height*temp, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
     });
   }
   @override

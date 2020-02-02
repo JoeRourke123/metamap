@@ -19,7 +19,7 @@ class MetamapState extends ChangeNotifier {
   String cookie;
   BuildContext rootContext;
   ScrollController scrollController = new ScrollController();
-  int index = 0;
+  Post index;
   int selectedIndex = 0;
 
   MetamapState(BuildContext context) {
@@ -183,11 +183,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  List<Widget> widgetPages = <Widget>[
+  List<Widget> widgetPages;
+
+  _MyHomePageState() {
+    widgetPages = <Widget>[
     FeedPage(),
-    MapPage(),
+    MapPage(nav: this),
     NewPage(),
-  ];
+    ];
+  }
 
 
   @override
