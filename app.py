@@ -54,4 +54,4 @@ api.add_resource(Like, '/like')
 api.add_resource(Unlike, '/unlike')
 
 if __name__ == '__main__': 
-    app.run(debug = True)
+    app.run(debug = True, host="0.0.0.0")

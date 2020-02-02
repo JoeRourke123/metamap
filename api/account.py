@@ -14,6 +14,8 @@ users = database.get_users()
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
+        print(request.data)
+        print(request.environ)
         if session.get("authenticated"):
             return f(*args, **kwargs)
         else:
