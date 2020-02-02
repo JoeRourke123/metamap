@@ -15,16 +15,26 @@ class FeedPage extends StatefulWidget {
 class _FeedPageState extends State<FeedPage> {
   GlobalKey feedKey;
 
+  void findScroll() {
+    Consumer<MetamapState>(builder: (context, state, x) {
+      print(state.index);
+      int temp = 0;
+      if (state.index != null) {
+        temp = state.postList.indexOf(state.index, 0);
+      }
+      state.scrollController.animateTo(MediaQuery
+          .of(context)
+          .size
+          .height * temp, duration: Duration(seconds: 1),
+      curve: Curves.fastOutSlowIn);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    Consumer<MetamapState>(builder: (context, state, x) {
-      int temp = 0;
-      if(state.index != null) {
-        temp = state.postList.indexOf(state.index, 0);
-      }
-      state.scrollController.animateTo(MediaQuery.of(context).size.height*temp, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
-    });
+    WidgetsBinding.instance.addPersistentFrameCallback((_) => findScroll());
+
   }
   @override
   Widget build(BuildContext context) {
@@ -40,6 +50,7 @@ class _FeedPageState extends State<FeedPage> {
               itemBuilder: (context, index) => Padding(padding: EdgeInsets.all(20), child: widgetList[index]),
               controller: state.scrollController,
             );
+
           } else {
             print(snapshot.error);
             return Text("Something went wrong");

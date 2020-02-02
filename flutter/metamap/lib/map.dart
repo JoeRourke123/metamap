@@ -27,28 +27,37 @@ class _MapState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Consumer<MetamapState>(
       builder: (context, state, x) {
-        return SizedBox(width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height-136,child: GoogleMap(
+        markers = state.postList.map((post) {return new Marker(
+            markerId: MarkerId(post.date.toString()),
+            infoWindow: InfoWindow (
+                title: "Post from ${post.username}",
+                snippet: "${post.content}"
+            ),
+            position: LatLng(post.coordinates[0],
+                post.coordinates[1]),
+            onTap: () {
+              state.index = post;
+              widget.nav.setState(() {
+                state.selectedIndex = 0;
+              });
+            });
+        }).toSet();
+        return SizedBox(width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height-136,child:
+        GoogleMap(
             mapType: MapType.normal,
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
               target: LatLng(state.position.latitude, state.position.longitude),
               zoom: 11.0,
             ),
-            markers: state.postList.map((post) {return new Marker(
-                markerId: MarkerId(post.date.toString()),
-                infoWindow: InfoWindow (
-            title: "Post from ${post.username}",
-                  snippet: "${post.content}"
-            ),
-                position: LatLng(post.coordinates[0],
-                    post.coordinates[1]),
-              onTap: () {
-                  state.index = post;
-              widget.nav.setState(() {
-                state.selectedIndex = 0;
-              });
-            });
-            }).toSet()
+            markers: markers,
+            circles: Set.from([Circle(
+        circleId: CircleId("poop"),
+          center: LatLng(state.position.latitude, state.position.longitude),
+          radius: 1000,
+              fillColor: Color.fromARGB(50, 20, 50, 200),
+              strokeWidth: 0,
+        )]),
         )
         );
       });
